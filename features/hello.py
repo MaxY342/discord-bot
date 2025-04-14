@@ -6,12 +6,9 @@ class HelloCog(commands.Cog):
         self.bot = bot
         print("HelloCog loaded")
     
-    @commands.Cog.listener()
-    async def on_message(self, message):
-        if message.author == self.bot.user:
-            return
-        if message.content.startswith('$hello'):
-            await message.channel.send('Hello!')
+    @commands.command(name='hello')
+    async def hello(self, ctx):
+        await ctx.send('Hello!')
 
 async def setup(bot):
     await bot.add_cog(HelloCog(bot))
