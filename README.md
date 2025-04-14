@@ -1,7 +1,7 @@
 # discord-bot
-##$hello
+## $hello
 - responds with Hello!
 
-##$ask
+## $ask
 - requires ollama installed and open
-- responds to prompt after $ask e.g. $ask **what colour is the sky**
+- responds to prompt after $ask e.g. $ask <ins>what colour is the sky</ins>
