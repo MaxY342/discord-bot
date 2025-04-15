@@ -11,7 +11,7 @@ bot = commands.Bot(command_prefix='$', intents=intents)
 
 async def load_cogs():
     for filename in os.listdir('./features'):
-        if filename.endswith('.py') and filename != '__init__.py':
+        if filename.endswith('.py'):
             try:
                 await bot.load_extension(f'features.{filename[:-3]}')
                 print(f"Loaded {filename}")
