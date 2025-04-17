@@ -83,6 +83,9 @@ class MusicCog(commands.Cog):
         try:
             with yt_dlp.YoutubeDL(ydl_ops) as ydl:
                 info = ydl.extract_info(f'ytsearch5:{query}', download=False)
+                if len(info['entries']) == 0:
+                    await ctx.send("No results found.")
+                    return
                 for entry in info['entries']:
                     await ctx.send(f"Title: {entry['title']} Channel: {entry['channel']} Url: {entry['url']}", suppress_embeds=True)
         except Exception as e:
