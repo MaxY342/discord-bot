@@ -11,9 +11,11 @@
 ## Music player
 - Requires ffmpeg
 ### $play
-- Plays youtube url in vc you are currently in after $play e.g. $play <ins>(youtube song url)</ins>
+- Plays youtube url in vc you are currently in after $play e.g. $play <ins>https://www.youtube.com/watch?v=dQw4w9WgXcQ</ins>
 - If bot is already playing audio, song/url will be added to queue
-- must be in a vc
+- Must be in a vc
+### $search
+- Returns title, channel, and url of the top 5 search results from youtube of query e.g. $search <ins>Never gonna give you up</ins>
 ### $queue
 - Check the current queue
 ### $skip
