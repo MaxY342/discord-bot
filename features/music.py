@@ -42,9 +42,9 @@ class MusicCog(commands.Cog):
         if not ctx.author.voice:
             await ctx.send("You are not in a voice channel!")
             return
-        vc = await ctx.author.voice.channel.connect()
-        if ctx.voice_client:
-            await ctx.send("moved to {vc.channel.name}")
+        if not ctx.voice_client or ctx.voice_client.channel != ctx.author.voice.channel:
+            vc = await ctx.author.voice.channel.connect()
+            await ctx.send(f"moved to {vc.channel.name}")
         
         # Download audio
         ydl_ops = {
