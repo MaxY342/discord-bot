@@ -46,7 +46,6 @@ class MusicCog(commands.Cog):
         if ctx.voice_client:
             await ctx.send("moved to {vc.channel.name}")
         
-
         # Download audio
         ydl_ops = {
             'format': 'bestaudio/best',
@@ -71,6 +70,23 @@ class MusicCog(commands.Cog):
             await ctx.send(f'Added to queue: {info["title"]}')
         else:
             await self.play_next(ctx)
+
+    @commands.command(name='search')
+    async def search(self, ctx, *, query: str):
+        ydl_ops = {
+            'format': 'bestaudio/best',
+            'quiet': True,
+            'extract_flat': True,
+            'default_search': 'ytsearch5',
+        }
+
+        try:
+            with yt_dlp.YoutubeDL(ydl_ops) as ydl:
+                info = ydl.extract_info(f'ytsearch5:{query}', download=False)
+                for entry in info['entries']:
+                    await ctx.send(f"Title: {entry['title']} Channel: {entry['channel']} Url: {entry['url']}", suppress_embeds=True)
+        except Exception as e:
+            await ctx.send(f"Error searching: {e}")
 
     @commands.command(name="queue")
     async def queue(self, ctx):
