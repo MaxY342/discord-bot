@@ -22,3 +22,12 @@
 - Skip the currently playing song
 ### $clear
 - Clears the queue
+
+## Pokemon
+- requires sqlite for db
+### $pokemon_info
+- Gets universal info on a specified pokemon e.g. $pokemon_info <ins>pikachu</ins>
+### $random_pokemon
+- Gets random pokemon and adds it to your collection
+### $view_pokemon
+- Veiw your currently owned pokemon
