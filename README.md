@@ -15,7 +15,7 @@
 - If bot is already playing audio, song/url will be added to queue
 - Must be in a vc
 ### $search
-- Returns title, channel, and url of the top 5 search results from youtube of query e.g. $search <ins>Never gonna give you up</ins>
+- Returns title, channel, and url of the top 5 search results from youtube of query after $search e.g. $search <ins>Never gonna give you up</ins>
 ### $queue
 - Check the current queue
 ### $skip
@@ -26,7 +26,7 @@
 ## Pokemon
 - requires sqlite for db
 ### $pokemon_info
-- Gets universal info on a specified pokemon e.g. $pokemon_info <ins>pikachu</ins>
+- Gets universal info on a specified pokemon after $pokemon_info e.g. $pokemon_info <ins>pikachu</ins>
 ### $random_pokemon
 - Gets random pokemon and adds it to your collection
 ### $view_pokemon
