@@ -2,13 +2,18 @@ import discord
 from discord.ext import commands
 import pokebase as pb
 import random
+import sqlite3
 
 class PokemonCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.con = sqlite3.connect('pokemon.db')
+        self.cur = self.con.cursor()
+        self.cur.execute('CREATE TABLE IF NOT EXISTS user_pokemon (id INTEGER PRIMARY KEY, pokemon TEXT)')
+        self.cur.execute('CREATE TABLE IF NOT EXISTS pokemon_moves (id INTEGER PRIMARY KEY, pokemon TEXT, move TEXT)')
         
     @commands.command(name='pokemon_info')
-    async def get_pokemon(self, ctx, *, name:str):
+    async def pokemon_info(self, ctx, *, name:str):
         pokemon = pb.pokemon(name.lower())
         if not pokemon:
             await ctx.send(f"No pokemon found for {name}.")
@@ -46,8 +51,26 @@ class PokemonCog(commands.Cog):
             embed.add_field(name="Moves", value=", ".join(moves[:4]), inline=True)
             embed.add_field(name="Stats", value="\n".join([f"{s.stat.name}: {s.base_stat}" for s in pokemon.stats]), inline=False)
             await ctx.send(embed=embed)
+            self.cur.execute('INSERT INTO user_pokemon VALUES (?, ?)', (ctx.author.id, pokemon.name))
+            for move in moves:
+                self.cur.execute('INSERT INTO pokemon_moves VALUES (?, ?, ?)', (ctx.author.id, pokemon.name, move))
+            self.con.commit()
         except Exception as e:
             await ctx.send(f"Error: {e}")
+    
+    @commands.command(name='view_pokemon')
+    async def view_pokemon(self, ctx):
+        pokemon = self.cur.execute('SELECT pokemon FROM user_pokemon WHERE id = ?', (ctx.author.id,)).fetchall()
+        if not pokemon:
+            await ctx.send("You have no Pokémon.")
+            return
+        embed = discord.Embed(title=f"{ctx.author.name}'s Pokémon, color=0x00ff00)")
+        for p in pokemon:
+            moves = self.cur.execute('SELECT move FROM pokemon_moves WHERE id = ? AND pokemon = ?', (ctx.author.id, p[0])).fetchall()
+            moves = [m[0] for m in moves]
+            embed.add_field(name=p[0], value=", ".join(moves), inline=False)
+        await ctx.send(embed=embed)
+
 
 async def setup(bot):
     await bot.add_cog(PokemonCog(bot))

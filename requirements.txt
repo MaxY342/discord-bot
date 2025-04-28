@@ -3,4 +3,5 @@ python-dotenv
 ollama
 yt-dlp
 PyNaCl
+praw
 pokebase
