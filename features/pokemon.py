@@ -9,8 +9,8 @@ class PokemonCog(commands.Cog):
         self.bot = bot
         self.con = sqlite3.connect('pokemon.db')
         self.cur = self.con.cursor()
-        self.cur.execute('CREATE TABLE IF NOT EXISTS user_pokemon (id INTEGER PRIMARY KEY, pokemon TEXT)')
-        self.cur.execute('CREATE TABLE IF NOT EXISTS pokemon_moves (id INTEGER PRIMARY KEY, pokemon TEXT, move TEXT)')
+        self.cur.execute('CREATE TABLE IF NOT EXISTS user_pokemon (id INTEGER, pokemon TEXT)')
+        self.cur.execute('CREATE TABLE IF NOT EXISTS pokemon_moves (id INTEGER, pokemon TEXT, move TEXT)')
         
     @commands.command(name='pokemon_info')
     async def pokemon_info(self, ctx, *, name:str):
@@ -64,7 +64,7 @@ class PokemonCog(commands.Cog):
         if not pokemon:
             await ctx.send("You have no Pokémon.")
             return
-        embed = discord.Embed(title=f"{ctx.author.name}'s Pokémon, color=0x00ff00)")
+        embed = discord.Embed(title=f"{ctx.author.name}'s Pokémon", color=0x00ff00)
         for p in pokemon:
             moves = self.cur.execute('SELECT move FROM pokemon_moves WHERE id = ? AND pokemon = ?', (ctx.author.id, p[0])).fetchall()
             moves = [m[0] for m in moves]
