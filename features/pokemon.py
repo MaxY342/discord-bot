@@ -69,7 +69,7 @@ class PokemonCog(commands.Cog):
     def add_pokemon_to_db(self, user_id, pokemon_name, moves):
         self.cur.execute('INSERT INTO user_pokemon (id, pokemon) VALUES (?, ?)', (user_id, pokemon_name))
         for move in moves:
-            self.cur.execute('INSERT INTO pokemon_moves (id, pokemon, move) VALUES (?, ?, ?)', (user_id, pokemon_name, move))')
+            self.cur.execute('INSERT INTO pokemon_moves (id, pokemon, move) VALUES (?, ?, ?)', (user_id, pokemon_name, move))
         self.con.commit()
 
     def get_rarity_color(self, rarity):
